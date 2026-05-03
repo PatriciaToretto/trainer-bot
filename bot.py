@@ -330,7 +330,7 @@ async def progress_command(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     user = get_user(data, update.effective_user.id)
     await show_progress(update.message, user)
 
-async def main():
+def main():
     app = Application.builder().token(BOT_TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("progress", progress_command))
@@ -339,7 +339,7 @@ async def main():
     app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
     print("🤖 Бот запущено!")
-    await app.run_polling()
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
