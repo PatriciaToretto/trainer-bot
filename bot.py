@@ -240,9 +240,11 @@ async def handle_photo(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
     if awaiting == "food":
         prompt = f"Аналізуй це фото їжі. {caption if caption else 'Оціни калорійність, білки/жири/вуглеводи, чи підходить для дефіциту калорій. Дай рекомендацію.'}"
     elif awaiting == "workout":
-        prompt = f"Аналізуй це фото тренування. {caption if caption else 'Оціни вправу або активність. Дай зворотній зв\\'язок і мотивацію.'}"
+        default_workout = "Оціни вправу або активність. Дай зворотній зв'язок і мотивацію."
+        prompt = f"Аналізуй це фото тренування. {caption if caption else default_workout}"
     else:
-        prompt = f"Проаналізуй це зображення у контексті фітнесу і здоров\\'я. {caption}"
+        default_other = "Проаналізуй це зображення у контексті фітнесу і здоров'я."
+        prompt = f"{default_other} {caption}"
     
     messages = build_history(user, prompt)
     reply = await ask_claude(messages, img_b64)
